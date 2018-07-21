@@ -40,6 +40,12 @@ class GildedRoseTest(unittest.TestCase):
                 if item.name.split(' ')[0].lower() == 'aged']
 
     @property
+    def backstage_items(self):
+        return [item
+                for item in items
+                if item.name.split(' ')[0].lower() == 'backstage']
+
+    @property
     def sulfuras_items(self):
         return [item
                 for item in items
@@ -106,6 +112,17 @@ class GildedRoseTest(unittest.TestCase):
 
     def test_quality_increases_for_aged(self):
         self._perform_update_test('aged_items', expected_decrease=-1)
+
+    def test_quality_never_over_50(self):
+        results = self._perform_update_test('aged_items', count=1000, perform_assert=False)
+        for item in results:
+            self.assertLessEqual(item[1], 50, '{} is more than 50: {}'.format(item[1], item[2]))
+
+        for i in (1, 5, 10, 15):
+            results = self._perform_update_test('backstage_items', count=i, perform_assert=False)
+            for item in results:
+                self.assertLessEqual(item[1], 50, '{} is more than 50 ({}): {}'.format(item[1], i,
+                                                                                       item[2]))
 
 
 if __name__ == '__main__':
