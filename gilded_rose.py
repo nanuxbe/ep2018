@@ -55,3 +55,6 @@ class Item:
     def update_quality(self):
         self.sell_in -= 1
         self.quality -= 1 * self.rate
+
+        if self.quality < 0:
+            self.quality = 0
