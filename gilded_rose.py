@@ -46,6 +46,12 @@ class Item:
     def __repr__(self):
         return "%s, %s, %s" % (self.name, self.sell_in, self.quality)
 
+    @property
+    def rate(self):
+        if self.sell_in < 0:
+            return 2
+        return 1
+
     def update_quality(self):
         self.sell_in -= 1
-        self.quality -= 1
+        self.quality -= 1 * self.rate
