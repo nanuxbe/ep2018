@@ -12,10 +12,11 @@ if __name__ == "__main__":
     import sys
     if len(sys.argv) > 1:
         days = int(sys.argv[1]) + 1
+    gr = GildedRose(items)
     for day in range(days):
         print("-------- day %s --------" % day)
         print("name, sellIn, quality")
-        for item in items:
+        for item in gr.items:
             print(item)
         print("")
-        GildedRose(items).update_quality()
+        gr.update_quality()
