@@ -34,7 +34,6 @@ class GildedRoseTest(unittest.TestCase):
                 for item in items
                 if item.name.split(' ')[0].lower() == 'conjured']
 
-
     def get_attr_diff(self, items, attr='quality', count=1):
         original = [getattr(item, attr)
                     for item in items]
@@ -47,6 +46,13 @@ class GildedRoseTest(unittest.TestCase):
                   for item in items]
 
         return zip(original, result)
+
+    def test_quality_regular(self):
+        item_set = deepcopy(self.regular_items)
+        results = self.get_attr_diff(item_set)
+        for item in results:
+            # result should be original - 1
+            self.assertEqual(item[0], item[1] + 1)
 
 
 if __name__ == '__main__':
