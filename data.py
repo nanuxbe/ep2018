@@ -11,6 +11,6 @@ items = [
     Item(name="Backstage passes to a TAFKAL80ETC concert", sell_in=10, quality=49),
     Item(name="Backstage passes to a TAFKAL80ETC concert", sell_in=5, quality=49),
     Item(name="Conjured Mana Cake", sell_in=3, quality=6),  # <-- :O
-    Item(name="+5 Dexterity Vest", sell_in=0, quality=20),
-    Item(name="Elixir of the Mongoose", sell_in=-5, quality=7),
+    Item(name="+7 Dexterity Vest", sell_in=0, quality=20),
+    Item(name="Elixir of the Octopus", sell_in=-5, quality=7),
 ]

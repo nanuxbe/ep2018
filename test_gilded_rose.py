@@ -74,8 +74,7 @@ class GildedRoseTest(unittest.TestCase):
         item_set = deepcopy(getattr(self, items_prop))
         results = self.get_attr_diff(item_set, attr=attr, count=count)
         for item in results:
-            # result should be original - expected_decrease
-            computed_expected = item[0] - expected_decrease
+            computed_expected = item[0] - expected_decrease * count
 
             # quality is never negative
             if (attr == 'quality'):
@@ -93,6 +92,10 @@ class GildedRoseTest(unittest.TestCase):
 
     def test_expired_regulars_decrease_twice_as_fast(self):
         self._perform_update_test('expired_regular_items', expected_decrease=2)
+
+    def test_quality_never_negative(self):
+        # 1000 is WAY over the maximum sell_in from our data, so all qualities should be at 0
+        self._perform_update_test('all_items', count=1000)
 
 
 if __name__ == '__main__':
