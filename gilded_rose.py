@@ -6,10 +6,9 @@ class GildedRose(object):
 
     def _get_specialised_item_for(self, item):
         item_type = re.match(r'\w+', item.name)
-        if item_type is None:
-            return item
-        klass = globals().get('{}Item'.format(item_type.group()), Item)
-        return klass(item.name, item.sell_in, item.quality)
+        klass = ItemProxy if item_type is None else \
+            globals().get('{}ItemProxy'.format(item_type.group()), ItemProxy)
+        return klass(item)
 
     def __init__(self, items):
         self.items = [self._get_specialised_item_for(item) for item in items]
@@ -46,7 +45,7 @@ class GildedRose(object):
             #             item.quality = item.quality + 1
 
 
-class Item(object):
+class Item:
     def __init__(self, name, sell_in, quality):
         self.name = name
         self.sell_in = sell_in
@@ -55,8 +54,23 @@ class Item(object):
     def __repr__(self):
         return "%s, %s, %s" % (self.name, self.sell_in, self.quality)
 
+
+class ItemProxy(object):
     decrement = 1
     max_quality = 50
+
+    def __init__(self, item):
+        self.item = item
+
+    def __getattr__(self, key):
+        if key in ('quality', 'sell_in'):
+            return getattr(self.item, key)
+        return super(ItemProxy, self).__getattr__(key)
+
+    def __setattr__(self, key, value):
+        if key in ('quality', 'sell_in'):
+            return setattr(self.item, key, value)
+        return super(ItemProxy, self).__setattr__(key, value)
 
     @property
     def rate(self):
@@ -74,17 +88,17 @@ class Item(object):
             self.quality = 50
 
 
-class AgedItem(Item):
+class AgedItemProxy(ItemProxy):
     decrement = -1
 
 
-class SulfurasItem(Item):
+class SulfurasItemProxy(ItemProxy):
 
     def update_quality(self):
         pass
 
 
-class BackstageItem(AgedItem):
+class BackstageItemProxy(AgedItemProxy):
 
     @property
     def rate(self):
@@ -99,4 +113,4 @@ class BackstageItem(AgedItem):
             self.sell_in -= 1
             self.quality = 0
         else:
-            super(BackstageItem, self).update_quality()
+            super(BackstageItemProxy, self).update_quality()

@@ -72,7 +72,7 @@ class GildedRoseTest(unittest.TestCase):
             gr.update_quality()
 
         result = [getattr(item, attr)
-                  for item in gr.items]
+                  for item in items]
 
         return zip(original, result, items)
 
@@ -84,6 +84,7 @@ class GildedRoseTest(unittest.TestCase):
             item_set = deepcopy(items_list)
         else:
             raise Exception('Please provide an items_prop or an items_list')
+
 
         results = self.get_attr_diff(item_set, attr=attr, count=count)
 
