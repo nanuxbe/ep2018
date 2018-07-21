@@ -46,7 +46,7 @@ class GildedRose(object):
             #             item.quality = item.quality + 1
 
 
-class Item:
+class Item(object):
     def __init__(self, name, sell_in, quality):
         self.name = name
         self.sell_in = sell_in
@@ -82,3 +82,21 @@ class SulfurasItem(Item):
 
     def update_quality(self):
         pass
+
+
+class BackstageItem(AgedItem):
+
+    @property
+    def rate(self):
+        if self.sell_in < 10 and self.sell_in >= 5:
+            return 2
+        if self.sell_in < 5:
+            return 3
+        return 1
+
+    def update_quality(self):
+        if self.sell_in <= 0:
+            self.sell_in -= 1
+            self.quality = 0
+        else:
+            super(BackstageItem, self).update_quality()
