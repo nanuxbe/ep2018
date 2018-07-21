@@ -1,9 +1,18 @@
 # -*- coding: utf-8 -*-
+import re
+
 
 class GildedRose(object):
 
+    def _get_specialised_item_for(self, item):
+        item_type = re.match(r'\w+', item.name)
+        if item_type is None:
+            return item
+        klass = globals().get('{}Item'.format(item_type.group()), Item)
+        return klass(item.name, item.sell_in, item.quality)
+
     def __init__(self, items):
-        self.items = items
+        self.items = [self._get_specialised_item_for(item) for item in items]
 
     def update_quality(self):
         for item in self.items:
@@ -46,6 +55,8 @@ class Item:
     def __repr__(self):
         return "%s, %s, %s" % (self.name, self.sell_in, self.quality)
 
+    decrement = 1
+
     @property
     def rate(self):
         if self.sell_in < 0:
@@ -54,7 +65,11 @@ class Item:
 
     def update_quality(self):
         self.sell_in -= 1
-        self.quality -= 1 * self.rate
+        self.quality -= self.decrement * self.rate
 
         if self.quality < 0:
             self.quality = 0
+
+
+class AgedItem(Item):
+    decrement = -1
