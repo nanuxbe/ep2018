@@ -104,6 +104,9 @@ class GildedRoseTest(unittest.TestCase):
         for item in results:
             self.assertGreaterEqual(item[1], 0, '{} is negative: {}'.format(item[1], item[2]))
 
+    def test_quality_increases_for_aged(self):
+        self._perform_update_test('aged_items', expected_decrease=-1)
+
 
 if __name__ == '__main__':
     unittest.main()
