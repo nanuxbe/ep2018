@@ -70,9 +70,14 @@ class GildedRoseTest(unittest.TestCase):
 
         return zip(original, result, items)
 
-    def _perform_update_test(self, items_prop, attr='quality', count=1, expected_decrease=1):
+    def _perform_update_test(self, items_prop, attr='quality', count=1, expected_decrease=1,
+                             perform_assert=True):
         item_set = deepcopy(getattr(self, items_prop))
         results = self.get_attr_diff(item_set, attr=attr, count=count)
+
+        if not perform_assert:
+            return results
+
         for item in results:
             computed_expected = item[0] - expected_decrease * count
 
@@ -95,7 +100,9 @@ class GildedRoseTest(unittest.TestCase):
 
     def test_quality_never_negative(self):
         # 1000 is WAY over the maximum sell_in from our data, so all qualities should be at 0
-        self._perform_update_test('all_items', count=1000)
+        results = self._perform_update_test('all_items', count=1000, perform_assert=False)
+        for item in results:
+            self.assertGreaterEqual(item[1], 0, '{} is negative: {}'.format(item[1], item[2]))
 
 
 if __name__ == '__main__':
