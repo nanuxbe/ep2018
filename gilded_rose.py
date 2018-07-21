@@ -114,3 +114,7 @@ class BackstageItemProxy(AgedItemProxy):
             self.quality = 0
         else:
             super(BackstageItemProxy, self).update_quality()
+
+
+class ConjuredItemProxy(ItemProxy):
+    decrement = 2
