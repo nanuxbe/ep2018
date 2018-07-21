@@ -56,6 +56,7 @@ class Item:
         return "%s, %s, %s" % (self.name, self.sell_in, self.quality)
 
     decrement = 1
+    max_quality = 50
 
     @property
     def rate(self):
@@ -69,6 +70,8 @@ class Item:
 
         if self.quality < 0:
             self.quality = 0
+        if self.quality > self.max_quality:
+            self.quality = 50
 
 
 class AgedItem(Item):
