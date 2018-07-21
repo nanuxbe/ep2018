@@ -6,7 +6,12 @@ import unittest
 from gilded_rose import Item, GildedRose
 from data import items
 
+
 class GildedRoseTest(unittest.TestCase):
+
+    @property
+    def all_items(self):
+        return items
 
     @property
     def regular_items(self):
@@ -47,12 +52,18 @@ class GildedRoseTest(unittest.TestCase):
 
         return zip(original, result)
 
-    def test_quality_regular(self):
-        item_set = deepcopy(self.regular_items)
-        results = self.get_attr_diff(item_set)
+    def _perform_update_test(self, items_prop, attr='quality', count=1, expected_decrease=1):
+        item_set = deepcopy(getattr(self, items_prop))
+        results = self.get_attr_diff(item_set, attr=attr, count=count)
         for item in results:
-            # result should be original - 1
-            self.assertEqual(item[0], item[1] + 1)
+            # result should be original - expected_decrease
+            self.assertEqual(item[0] - expected_decrease, item[1])
+
+    def test_quality_regular(self):
+        self._perform_update_test('regular_items')
+
+    def test_sell_in_decreases(self):
+        self._perform_update_test('all_items', 'sell_in')
 
 
 if __name__ == '__main__':
