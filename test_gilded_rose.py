@@ -124,6 +124,10 @@ class GildedRoseTest(unittest.TestCase):
                 self.assertLessEqual(item[1], 50, '{} is more than 50 ({}): {}'.format(item[1], i,
                                                                                        item[2]))
 
+    def test_sulfuras_never_change(self):
+        for attr in ('quality', 'sell_in'):
+            self._perform_update_test('sulfuras_items', attr=attr, expected_decrease=0)
+
 
 if __name__ == '__main__':
     unittest.main()
