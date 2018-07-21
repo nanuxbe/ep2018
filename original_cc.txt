@@ -1,0 +1,7 @@
+gilded_rose.py
+    M 7:4 GildedRose.update_quality - C
+    C 2:0 GildedRose - B
+    M 4:4 GildedRose.__init__ - A
+    C 38:0 Item - A
+    M 39:4 Item.__init__ - A
+    M 44:4 Item.__repr__ - A
