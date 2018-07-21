@@ -13,4 +13,5 @@ items = [
     Item(name="Conjured Mana Cake", sell_in=3, quality=6),  # <-- :O
     Item(name="+7 Dexterity Vest", sell_in=0, quality=20),
     Item(name="Elixir of the Octopus", sell_in=-5, quality=7),
+    Item(name="Conjured Beer", sell_in=-1, quality=6),  # <-- :O
 ]

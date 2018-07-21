@@ -159,5 +159,17 @@ class GildedRoseTest(unittest.TestCase):
         for item in results:
             self.assertEqual(item[1], 0, '{} is not 0: {}'.format(item[1], item[2]))
 
+    def test_conjured_quality_decrease(self):
+        non_exprired = [item
+                        for item in self.conjured_items
+                        if item.sell_in >= 0]
+        self._perform_update_test(items_list=non_exprired, expected_decrease=2)
+
+        expired = [item
+                   for item in self.conjured_items
+                   if item.sell_in < 0]
+        self._perform_update_test(items_list=expired, expected_decrease=4)
+
+
 if __name__ == '__main__':
     unittest.main()
