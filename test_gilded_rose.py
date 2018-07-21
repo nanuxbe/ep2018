@@ -22,6 +22,18 @@ class GildedRoseTest(unittest.TestCase):
                 )]
 
     @property
+    def non_expired_regular_items(self):
+        return [item
+                for item in self.regular_items
+                if item.sell_in > 0]
+
+    @property
+    def expired_regular_items(self):
+        return [item
+                for item in self.regular_items
+                if item.sell_in <= 0]
+
+    @property
     def aged_items(self):
         return [item
                 for item in items
@@ -74,10 +86,13 @@ class GildedRoseTest(unittest.TestCase):
                                                                           attr, count, item[2]))
 
     def test_quality_regular(self):
-        self._perform_update_test('regular_items')
+        self._perform_update_test('non_expired_regular_items')
 
     def test_sell_in_decreases_for_non_sulfuras(self):
         self._perform_update_test('non_sulfuras_items', 'sell_in')
+
+    def test_expired_regulars_decrease_twice_as_fast(self):
+        self._perform_update_test('expired_regular_items', expected_decrease=2)
 
 
 if __name__ == '__main__':
