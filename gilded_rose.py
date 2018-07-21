@@ -76,3 +76,9 @@ class Item:
 
 class AgedItem(Item):
     decrement = -1
+
+
+class SulfurasItem(Item):
+
+    def update_quality(self):
+        pass
